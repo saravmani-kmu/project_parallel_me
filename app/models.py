@@ -3,7 +3,7 @@ from typing import Literal
 
 class InputRequest(BaseModel):
     message: str
-    model_provider: Literal["openai", "gemini"] = "gemini"
+    model_provider: Literal["openai", "gemini", "groq"] = "gemini"
 
 class OutputResponse(BaseModel):
     response: str
