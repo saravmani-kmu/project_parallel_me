@@ -5,6 +5,7 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 from app.models import InputRequest, OutputResponse
 from app.graph import graph
@@ -13,6 +14,16 @@ from langchain_core.messages import HumanMessage
 load_dotenv()
 
 app = FastAPI(title="LangGraph Chat API")
+
+# Configure CORS
+origins = os.getenv("ALLOWED_ORIGINS", "").split(",")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.post("/chat", response_model=OutputResponse)
 async def chat(request: InputRequest):
